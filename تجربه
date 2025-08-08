@@ -1,0 +1,28 @@
+-- سكربت ماب 99ليلة لي انتقال عند الاولاد V2 قابل للتعديل
+ loadstring(game:HttpGet("https://pastebin.com/raw/NsGCAPBG"))()-- سكربت تخطي الprompty
+
+local function updateAllPrompts()
+	for _, prompt in ipairs(game:GetDescendants()) do
+		if prompt:IsA("ProximityPrompt") then
+			prompt.HoldDuration = 0
+		end
+	end
+end
+
+-- ⏱️ أول تحديث فوري
+updateAllPrompts()
+
+-- 🔁 مراقبة اللعبة لتحديث أي Prompt جديد ينضاف
+game.DescendantAdded:Connect(function(obj)
+	if obj:IsA("ProximityPrompt") then
+		obj.HoldDuration = 0
+	end
+end)
+
+-- ✅ تحديث دوري كل 5 ثواني احتياطاً (اختياري)
+task.spawn(function()
+	while true do
+		updateAllPrompts()
+		task.wait(5)
+	end
+end)
